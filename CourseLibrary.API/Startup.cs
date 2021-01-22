@@ -30,6 +30,14 @@ namespace CourseLibrary.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddHttpCacheHeaders((expirationModelOptions) => {
+                expirationModelOptions.MaxAge = 60;
+                expirationModelOptions.CacheLocation = Marvin.Cache.Headers.CacheLocation.Private;
+            },(validationModelOptions) => {
+                validationModelOptions.MustRevalidate = true;
+            
+            });
+            
             services.AddResponseCaching();
 
             services.AddControllers(setupAction => {
@@ -140,7 +148,9 @@ namespace CourseLibrary.API
                 });
             }
 
-            app.UseResponseCaching();
+            // app.UseResponseCaching(); // Activar si no se usa marvin
+
+            app.UseHttpCacheHeaders();
 
             app.UseRouting();
 
