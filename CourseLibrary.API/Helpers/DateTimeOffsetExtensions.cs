@@ -13,7 +13,7 @@ namespace CourseLibrary.API.Helpers
 
             var dateToCalculateTo = DateTime.UtcNow;
 
-            if (dateOfDeath != null)
+            if (dateOfDeath > dateTimeOffset)
             {
                 dateToCalculateTo = dateOfDeath.Value.UtcDateTime;
             }

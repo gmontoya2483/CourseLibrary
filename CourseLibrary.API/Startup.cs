@@ -30,6 +30,15 @@ namespace CourseLibrary.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // Enabling CORS - for any Origin, method and header
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            
             services.AddHttpCacheHeaders((expirationModelOptions) => {
                 expirationModelOptions.MaxAge = 60;
                 expirationModelOptions.CacheLocation = Marvin.Cache.Headers.CacheLocation.Private;
@@ -147,6 +156,10 @@ namespace CourseLibrary.API
                        
                 });
             }
+
+            // Activar Cors
+            app.UseCors("CorsPolicy");
+
 
             // app.UseResponseCaching(); // Activar si no se usa marvin
 
